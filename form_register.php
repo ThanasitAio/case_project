@@ -9,23 +9,14 @@
     $last_name = $_POST['last_name'];
     $create_date = date("Y-m-d H:i:s");
 
-    $sql ="SELECT * FROM `user`";
+    $sql ="SELECT * FROM `user` WHERE username = :username";
     $select_stmt = $db->query($sql);
+    $select_stmt->bindParam(":username",username);
     $select_stmt->execute();
+    $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+    $username_check = $row['username'];
 
-    while ($row = $select_stmt->fetch(PDO::FETCH_ASSOC)) {
-
-        $username_check = $row['username'];
-        $email_check = $row['email'];
-        
-        // $DB_PASSWORD = 'test';
-        if($username_check == $username){
-            echo 'USERNAME FALSE';
-            exit();
-        }else if ($email_check == $email){
-            echo 'EMAIL FALSE';
-            exit();
-        }else{
+     if($username_check == ''){
             $G_user = 'user';
             $new_password = password_hash($password, PASSWORD_DEFAULT);
             $sql1 = "INSERT INTO user (username, email, password, first_name, last_name, create_date, group_user) VALUES (:username,:email,:password,:first_name,:last_name,:create_date,:group_user)";
@@ -38,24 +29,26 @@
             $insert_stmt->bindParam(":group_user",$G_user);
             $insert_stmt->bindParam(":create_date",$create_date, PDO::PARAM_STR);
             $result = $insert_stmt->execute();
-
-            if($result){
+         
+             $sql ="SELECT * FROM `user` WHERE username = :username";
+            $select_stmt = $db->query($sql);
+            $select_stmt->bindParam(":username",username);
+            $select_stmt->execute();
+            $row = $select_stmt->fetch(PDO::FETCH_ASSOC);
+            $new_username = $row['username'];
+            if( $new_username == ''){
+               echo 'ERROR FALSE';
+               exit(); 
+            }else{
                 echo 'Register';
-               
-                exit();
+                exit(); 
             }
-      
+        }else {
+             echo 'USERNAME FALSE';
+             exit();
+     }
 
-          
-           
-            
 
-            
-        }
-
-        
-    }
-        
         
    
 ?>

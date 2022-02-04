@@ -66,13 +66,13 @@
                      return false;
              }
             var dataSet = {"username": username, "password": password};
-            //console.log(dataSet);
+           //
             $.ajax({           
                 type:"post",
                 url: 'form_login.php',
                 data: dataSet,
                 success: function(data2) {
-                    //console.log(aa)
+                    //console.log(data2)
                     if(data2 == 'LOGIN USER'){
                     Swal.fire({
                         title: 'Login user successfully... ',
@@ -85,7 +85,8 @@
                         }, 3000);
                         return false;  
 
-                   }else if(data2 == 'LOGIN ADMIN'){
+                   }
+                   if(data2 == 'LOGIN ADMIN'){
                     Swal.fire({
                         title: 'Login admin successfully... ',
                         icon: 'success',
@@ -98,9 +99,10 @@
                         
                         return false;  
 
-                   }else if(data2 =='ERROR USERNAME'){
-                        Swal.fire({
-                        title: 'Please enter Email !',
+                   } 
+                   if(data2 =='ERROR USERNAME OR PASSWORD'){
+                    Swal.fire({
+                        title: 'Error Username or Password !',
                         icon: 'error',
                         text: 'please try again'})
                         return false;

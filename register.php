@@ -65,8 +65,8 @@
             var confirm_password = document.getElementById('confirm_password').value;
             var first_name = document.getElementById('first_name').value;
             var last_name = document.getElementById('last_name').value;
-           
-             if(username ==''){
+            //alert(username);
+            if(username ==''){
                  //alert("กรุณากรอก DateEnd");
                  Swal.fire({
                      title: 'Please enter username !',
@@ -117,27 +117,31 @@
                      text: 'please try again'})
                      return false;   
              }
+             
             var dataSet = {"username": username, "email": email, "password": password, "first_name": first_name, "last_name": last_name};
             //alert(dataSet);
+            //console.log(dataSet)
             $.ajax({           
                 type:"post",
                 url: 'form_register.php',
                 data: dataSet,
                 success: function(data) {
-                   //console.log(username)
+                   console.log(data)
                    if(data == 'USERNAME FALSE'){
                     Swal.fire({
-                        title: 'Username Duplicate !',
+                        title: 'Username duplicate !',
                         icon: 'error',
                         text: 'please name again'})
                         return false;  
-                   }else if(data == 'EMAIL FALSE'){
+                   } 
+                   if(data == 'ERROR FALSE'){
                     Swal.fire({
-                        title: 'Email Duplicate !',
+                        title: 'Error false !',
                         icon: 'error',
-                        text: 'please email again'})
+                        text: 'please register again'})
                         return false;  
-                   }else if(data == 'Register'){
+                   }
+                    if(data == 'Register'){
                     Swal.fire({
                         title: 'Register successfully... ',
                         icon: 'success',
@@ -150,6 +154,7 @@
                         return false;  
 
                    }
+                  
                 }
             });
    
